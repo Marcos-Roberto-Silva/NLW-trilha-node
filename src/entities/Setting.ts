@@ -30,6 +30,6 @@ class Setting {
       this.id = uuid();
     }
   }
-}
+};
 
 export { Setting };
