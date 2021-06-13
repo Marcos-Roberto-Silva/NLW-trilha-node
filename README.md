@@ -1,1 +1,1 @@
-# Projeto da NLW WebChat com typeScript e Nodejs
+# Projeto da NLW WebSockets com typeScript e Nodejs
