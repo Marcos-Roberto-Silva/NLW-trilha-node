@@ -5,11 +5,6 @@ import { createServer } from 'http';
 import { Server, Socket } from 'socket.io';
 import path from 'path';
 
-import * as dotenv from 'dotenv';
-dotenv.config();
-
-const PORT = process.env.PORT;
-
 const app = express();
 
 app.use(express.static(path.join(__dirname, "..", "public")));
@@ -19,6 +14,10 @@ app.set("view engine", "html");
 
 app.get("/pages/client", (request, response) => {
     return response.render("html/client.html")
+});
+
+app.get("/pages/admin", (request, response) => {
+    return response.render("html/admin.html")
 });
 
 const http =  createServer(app);

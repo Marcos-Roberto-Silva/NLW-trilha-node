@@ -1,5 +1,6 @@
 import { http } from './http';
 import './websocket/client';
+import './websocket/admin';
 
 import * as dotenv from 'dotenv';
 dotenv.config();

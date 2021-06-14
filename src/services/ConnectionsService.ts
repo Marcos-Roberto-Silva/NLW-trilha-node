@@ -32,6 +32,15 @@ class ConnectionsService {
     const connection = await this.ConnectionsRepository.findOne({ user_id });
     return connection;
   }
+
+  async allConnectionsWithoutAdmin() {
+    const connetions = await this.ConnectionsRepository.find({ 
+      where: { admin_id: null },
+      relations: ["user"],
+    });
+
+    return connetions;
+  }
 }
 
 export { ConnectionsService };

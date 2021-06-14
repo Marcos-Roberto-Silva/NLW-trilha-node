@@ -1,6 +1,6 @@
 const socket = io();
 let connectionsUsers = [];
-let connectionInSupport = []; //Cria uma variavel para armazenar os atendimentos
+let connectionInSupport = [];
 
 socket.on("admin_list_all_users", (connections) => {
   connectionsUsers = connections;
@@ -53,9 +53,11 @@ function call(id) {
 
         createDiv.innerHTML = `<span>${connection.user.email} </span>`;
         createDiv.innerHTML += `<span>${message.text}</span>`;
+
         createDiv.innerHTML += `<span class="admin_date">${dayjs(
           message.created_at
-        ).format("DD/MM/YYYY HH:mm:ss")}</span>`;
+        ).format("DD-MM-YYYY HH:mm:ss")}</span>`;
+
       } else {
         createDiv.className = "admin_message_admin";
 
@@ -97,7 +99,7 @@ function sendMessage(id) {
 socket.on("admin_receive_message", (data) => {
   const connection = connectionInSupport.find(
     (connection) => connection.socket_id === data.socket_id
-  ); //Aqui utiliza o array de atendimento que foi inserido acima
+  );
 
   const divMessages = document.getElementById(
     `allMessages${connection.user_id}`
