@@ -33,13 +33,21 @@ class ConnectionsService {
     return connection;
   }
 
-  async allConnectionsWithoutAdmin() {
+  async findAllWithoutAdmin() {
     const connetions = await this.ConnectionsRepository.find({ 
       where: { admin_id: null },
       relations: ["user"],
     });
 
     return connetions;
+  }
+
+  async findBySocketID(socket_id: string) {
+    const connection = await this.ConnectionsRepository.findOne({
+      socket_id,
+    });
+
+    return connection;
   }
 }
 
