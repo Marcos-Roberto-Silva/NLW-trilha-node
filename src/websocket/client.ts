@@ -5,9 +5,9 @@ import { MessagesService } from "../services/MessagesServices";
 import { Socket } from "socket.io";
 
 interface IParams {
-    text: string;
-    email: string;
-};
+  text: string;
+  email: string;
+}
 
 io.on("connect", (socket) => {
   const socket_id = socket.id;
@@ -32,32 +32,31 @@ io.on("connect", (socket) => {
 
       user_id = user.id;
     } else {
-        user_id = userExists.id;
+      user_id = userExists.id;
 
-        const connection = await connectionsService.findByUserId(userExists.id);
+      const connection = await connectionsService.findByUserId(userExists.id);
 
-        if(!connection){
-            
-            await connectionsService.create({
-                socket_id,
-                user_id: userExists.id,
-              });
-        } else {
-            connection.socket_id = socket_id;
+      if (!connection) {
+        await connectionsService.create({
+          socket_id,
+          user_id: userExists.id,
+        });
+      } else {
+        connection.socket_id = socket_id;
 
-            await connectionsService.create(connection);
-        }
+        await connectionsService.create(connection);
+      }
     }
 
-    await messagesService.create({ text, user_id});
+    await messagesService.create({ text, user_id });
 
     const allMessages = await messagesService.listByUser(user_id);
-    
-    socket.emit('client_list_all_messages', allMessages);
+
+    socket.emit("client_list_all_messages", allMessages);
 
     const allUsers = await connectionsService.findAllWithoutAdmin();
     io.emit("admin_list_all_users", allUsers);
-  }); 
+  });
 
   socket.on("client_send_to_admin", async (params) => {
     const { text, socket_admin_id } = params;
@@ -67,13 +66,13 @@ io.on("connect", (socket) => {
     const { user_id } = await connectionsService.findBySocketID(socket.id);
 
     const message = await messagesService.create({
-      text, 
+      text,
       user_id,
     });
 
     io.to(socket_admin_id).emit("admin_receive_message", {
       message,
-      socket_id
-    })
+      socket_id,
+    });
   });
 });
