@@ -24,7 +24,7 @@ const http =  createServer(app);
 const io = new Server(http);
 
 io.on('connection', (socket: Socket) => {
-    console.log("Se conectou", socket.id);
+    console.log("User is connected", socket.id);
 });
 
 app.use(express.json());

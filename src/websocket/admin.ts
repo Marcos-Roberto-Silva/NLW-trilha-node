@@ -1,6 +1,7 @@
 import { io } from '../http';
 import { ConnectionsService } from '../services/ConnectionsService';
 import { MessagesService } from '../services/MessagesServices';
+import { UsersService } from '../services/UsersService';
 
 io.on('connect', async (socket) => {
     const connectionsService = new ConnectionsService();
@@ -33,5 +34,12 @@ io.on('connect', async (socket) => {
         io.to(socket_id).emit("admin_send_to_client", {
             text, socket_id:socket.id
         });
+    });
+
+    socket.on("admin_user_in_support", async (params) => {
+        const { user_id } =  params;
+        await connectionsService.updateAdminID(user_id, socket.id);
+
+        io.emit("admin_list_all_users", allConnectionsWithoutAdmin);
     });
 });
